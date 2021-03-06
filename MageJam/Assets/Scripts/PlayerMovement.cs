@@ -8,7 +8,7 @@ public class PlayerMovement : MonoBehaviour
     public GameObject character;
     public float speed = 0.5f;
 
-    
+    public Animator animator;
 
 
     void Update()
@@ -22,6 +22,15 @@ public class PlayerMovement : MonoBehaviour
         Vector3 moveAxis = new Vector3(horizontal, -gravity, vertical);
         controller.Move(((moveAxis) * speed * Time.deltaTime));
         
+        if(horizontal != 0 || vertical != 0)
+        {
+            animator.SetBool("Walking", true);
+        }
+        else
+        {
+            animator.SetBool("Walking", false);
+        }
+
         if (horizontal > 0)
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(Vector3.right), 3f * Time.deltaTime);
         else if (horizontal < 0)
