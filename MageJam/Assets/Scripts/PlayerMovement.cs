@@ -9,14 +9,12 @@ public class PlayerMovement : MonoBehaviour
     public float speed = 0.5f;
 
     public Animator animator;
-
+    public AudioSource sound;
 
     void Update()
     {
         float horizontal = Input.GetAxisRaw("Horizontal");
         float vertical = Input.GetAxisRaw("Vertical");
-        Vector3 direction = new Vector3(horizontal, 0f, vertical).normalized;
-        Vector3 characterScale = character.transform.localScale;
         
         float gravity = 9.8f;
         Vector3 moveAxis = new Vector3(horizontal, -gravity, vertical);
@@ -25,10 +23,15 @@ public class PlayerMovement : MonoBehaviour
         if(horizontal != 0 || vertical != 0)
         {
             animator.SetBool("Walking", true);
+            if (!sound.isPlaying)
+            {
+                sound.Play();
+            }
         }
         else
         {
             animator.SetBool("Walking", false);
+            sound.Stop();
         }
 
         if (horizontal > 0)
